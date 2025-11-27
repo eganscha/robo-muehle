@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "robo-muehle"
+version = "0.1.0"
+description = "Robo Arm spielt Mühle"
+authors = [
+    { name = "Frederik Schwarz", email = "frederik@example.com" }
+]
+dependencies = [
+    "numpy"
+]
