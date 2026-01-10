@@ -1,29 +1,43 @@
 import argparse
+from argparse import Namespace
+from pathlib import Path
 
-DEFAULT_CONFIG_PATH: str = "configs"
-DEFAULT_CALIBRATIONS_PATH: str = f"{DEFAULT_CONFIG_PATH}/calibrations"
+from runtime.paths import DEFAULT_CONFIGS_DIR
 
-def parse_args():
+_ARGS: Namespace | None = None
+
+def _parse_args():
     """parses the cli args for the piecewalkers calibration subsystem"""
     parser = argparse.ArgumentParser(
         description=f"Calibrates the positions of the game board. "
                     f"Creates a calibration_[idx].toml file inside of /configs/calibrations with a progressive index."
     )
     parser.add_argument(
-        "--path",
-        default=str(DEFAULT_CALIBRATIONS_PATH),
+        "--configs_dir",
+        default=str(f"{DEFAULT_CONFIGS_DIR}"),
         type=str,
-        help=   f"Path where the calibration_[idx].toml file is stored. "
-                f"If none is provided, \"{DEFAULT_CALIBRATIONS_PATH}\" will be used.",
+        help=f"Path where the configs folder is located. Defaults to {DEFAULT_CONFIGS_DIR}. "
     )
     parser.add_argument(
         "--fixed_z",
         dest="fixed_z",
         action="store_true",
-        help=   f"Do not calculate the z-value based off of the average of the calibration points. "
-                f"Instead, use a hard-coded z-value that will work for your particular board defined inside the "
-                f"\"{DEFAULT_CALIBRATIONS_PATH}/niryo_config.toml\" file.",
+        help=   f"If this flag is set, the z-value will not be based on the average of the calibration points. "
+                f"Instead, a hard-coded z-value will be used instead which has been defined in the "
+                f"\"[configs_dir]/niryo_config.toml\" file.",
     )
     parser.set_defaults(fixed_z=False)
 
     return parser.parse_args()
+
+def get_args():
+    global _ARGS
+    if _ARGS is not None:
+        return _ARGS
+
+    _ARGS = _parse_args()
+    return _ARGS
+
+def get_configs_dir() -> Path:
+    args = get_args()
+    return Path(args.configs_dir).resolve()
