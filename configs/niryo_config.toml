@@ -1,0 +1,9 @@
+[general]
+# EMPTY
+
+[piecewalker]
+# Find your Robot’s IP address
+# https://niryorobotics.github.io/pyniryo/v1.2.1-1/setup/ip_address.html
+robot_ip = "10.10.10.10"
+# Fixed z-value that can optionally be used instead of calculating it via the averages during the calibration proccess
+fixed_z = 10
