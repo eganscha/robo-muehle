@@ -5,14 +5,21 @@
 # Find your Robot’s IP address
 # https://niryorobotics.github.io/pyniryo/v1.2.1-1/setup/ip_address.html
 robot_ip = "10.10.10.10"
+# Height of the chips
+chip_height = 0.05
 # Fixed z-value that can optionally be used instead of calculating it via the averages during the calibration proccess
-fixed_z = 10
+fixed_z = 0.10
 
 # Idle position the arm will move to between moves
 [piecewalker.idle_pose]
 x = 0.2098
 y = 0.0967
 z = 0.3431
+roll  = -1.8319
+pitch = 1.4669
+yaw   = -1.5402
+
+[piecewalker.grasp_params]
 roll  = -1.8319
 pitch = 1.4669
 yaw   = -1.5402

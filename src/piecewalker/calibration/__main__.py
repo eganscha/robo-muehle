@@ -3,11 +3,9 @@ from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
 
-from piecewalker.calibration.cli import get_args
 from piecewalker.calibration.helper import CALIBRATION_FILE_PREFIX, CALIBRATION_INDEX_WIDTH, CALIBRATION_FILE_EXTENSION
 from piecewalker.calibration.helper import get_first_free_cfg_idx
-# from piecewalker.core import get_robot
-from piecewalker.mock_core import get_robot
+from runtime.args import get_args_attr
 from runtime.config import get_config
 from runtime.paths import build_paths
 
@@ -31,11 +29,11 @@ def _record_xyz() -> XYZ:
     Documentation: https://niryorobotics.github.io/pyniryo/v1.2.1-1/examples/examples_movement.html#pose
     """
     robot = get_robot()
-    args = get_args()
     cfg = get_config()
 
+    fixed_z: bool = get_args_attr("fixed_z", False)
     fixed_z_val: float | None = None
-    if args.fixed_z:
+    if fixed_z:
         fixed_z_val = float(cfg["piecewalker"]["fixed_z"])
 
     pose = robot.get_pose()
@@ -47,11 +45,10 @@ def _record_xyz() -> XYZ:
 
 # noinspection PyListCreation
 def _build_toml_content(points: dict[CalibrationStep, XYZ]) -> str:
-    args: Namespace = get_args()
-
+    fixed_z: bool = get_args_attr("fixed_z", False)
     lines: list[str] = []
     lines.append("[general]")
-    lines.append(f"used_fixed_z = {str(bool(args.fixed_z)).lower()}")
+    lines.append(f"used_fixed_z = {str(fixed_z).lower()}")
     lines.append("")
 
     lines.append("[points]")

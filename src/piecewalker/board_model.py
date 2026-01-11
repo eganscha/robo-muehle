@@ -1,10 +1,10 @@
-from argparse import Namespace
 from dataclasses import dataclass
 from statistics import fmean
 from typing import Dict, Any, List
 
 from piecewalker.calibration.helper import parse_calibration_toml
-from runtime.cli import get_args
+from runtime.args import get_args_attr
+
 
 @dataclass(frozen=False)
 class XYZ:
@@ -49,9 +49,9 @@ UV_BY_INDEX = {
 }
 
 # Affiner Raum: https://de.wikipedia.org/wiki/Affiner_Raum
-def get_board_point(*, idx: int) -> XYZ:
-    args: Namespace = get_args()
-    calibration: Dict[str, Any] = parse_calibration_toml(args.calibration_file)
+def get_board_point(idx: int) -> XYZ:
+    calibration_file_path: str | None = get_args_attr("calibration_file", None)
+    calibration: Dict[str, Any] = parse_calibration_toml(calibration_file_path)
 
     # Measurement Points from the calibration file as XYZ
     points_xyz: dict[str, XYZ] = {}
