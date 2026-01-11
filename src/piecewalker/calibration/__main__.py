@@ -1,3 +1,4 @@
+from argparse import Namespace
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
@@ -46,8 +47,11 @@ def _record_xyz() -> XYZ:
 
 # noinspection PyListCreation
 def _build_toml_content(points: dict[CalibrationStep, XYZ]) -> str:
+    args: Namespace = get_args()
+
     lines: list[str] = []
     lines.append("[general]")
+    lines.append(f"used_fixed_z = {str(bool(args.fixed_z)).lower()}")
     lines.append("")
 
     lines.append("[points]")

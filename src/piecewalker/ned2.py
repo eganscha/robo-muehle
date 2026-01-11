@@ -22,7 +22,7 @@ class Ned2:
     # 3. Calculate based off of the calibration the points of the field
     # 4. Provide basic implementation for movement, maybe move_to, or some shit ...
     # 5. In General, think about what Frederik needs and then implement that function
-    
+
     def __del__(self):
         if self.robot is not None:
             print("Closing NiryoNed2 connection...")
