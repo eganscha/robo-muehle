@@ -1,8 +1,6 @@
 import argparse
 from pathlib import Path
 
-from runtime.paths import DEFAULT_CONFIGS_DIR
-
 _ARGS: argparse.Namespace | None = None
 
 def _parse_args():
@@ -11,10 +9,10 @@ def _parse_args():
         description=f"Runs the robo-muehle project. "
     )
     parser.add_argument(
-        "--configs_dir",
-        default=str(f"{DEFAULT_CONFIGS_DIR}"),
-        type=str,
-        help=f"Path to the configs directory. Defaults to {DEFAULT_CONFIGS_DIR}. "
+        "--calibration_file",
+        default=None,
+        type=Path,
+        help=f"Path if a particular calibration file should be used. Defaults to the calibration file with the highest index. "
     )
 
     return parser.parse_args()
@@ -26,7 +24,3 @@ def get_args():
 
     _ARGS = _parse_args()
     return _ARGS
-
-def get_configs_dir() -> Path:
-    args = get_args()
-    return Path(args.configs_dir).resolve()

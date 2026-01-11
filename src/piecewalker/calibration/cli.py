@@ -1,8 +1,5 @@
 import argparse
 from argparse import Namespace
-from pathlib import Path
-
-from runtime.paths import DEFAULT_CONFIGS_DIR
 
 _ARGS: Namespace | None = None
 
@@ -13,18 +10,11 @@ def _parse_args():
                     f"Creates a calibration_[idx].toml file inside of /configs/calibrations with a progressive index."
     )
     parser.add_argument(
-        "--configs_dir",
-        default=str(f"{DEFAULT_CONFIGS_DIR}"),
-        type=str,
-        help=f"Path where the configs folder is located. Defaults to {DEFAULT_CONFIGS_DIR}. "
-    )
-    parser.add_argument(
         "--fixed_z",
         dest="fixed_z",
         action="store_true",
-        help=   f"If this flag is set, the z-value will not be based on the average of the calibration points. "
-                f"Instead, a hard-coded z-value will be used instead which has been defined in the "
-                f"\"[configs_dir]/niryo_config.toml\" file.",
+        help=f"If this flag is set, the z-value will not be based on the average of the calibration points. "
+             f"Instead, a hard-coded z-value will be used instead which has been defined in the \"niryo_config.toml\" file."
     )
     parser.set_defaults(fixed_z=False)
 
@@ -37,7 +27,3 @@ def get_args():
 
     _ARGS = _parse_args()
     return _ARGS
-
-def get_configs_dir() -> Path:
-    args = get_args()
-    return Path(args.configs_dir).resolve()

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
 
-from piecewalker.calibration.cli import get_args, get_configs_dir
+from piecewalker.calibration.cli import get_args
 from piecewalker.calibration.helper import CALIBRATION_FILE_PREFIX, CALIBRATION_INDEX_WIDTH, CALIBRATION_FILE_EXTENSION
 from piecewalker.calibration.helper import get_first_free_cfg_idx
 # from piecewalker.core import get_robot
@@ -79,13 +79,13 @@ def _get_next_file_name() -> Path:
 
 def _gen_calibration_file() -> Path:
     """
-    generates a new calibration file in the provided --path directory.
+    generates a new calibration file.
     """
-    path = build_paths(configs_dir=get_configs_dir())
-    path.calibrations_dir.mkdir(parents=True, exist_ok=True)
+    paths = build_paths()
+    paths.calibrations_dir.mkdir(parents=True, exist_ok=True)
 
     file_name = _get_next_file_name()
-    target_path = path.calibrations_dir / file_name
+    target_path = paths.calibrations_dir / file_name
 
     content = _run_calibration()
     target_path.write_text(content, encoding="utf-8")
