@@ -3,7 +3,7 @@ from statistics import fmean
 from typing import Dict, Any, List
 
 from piecewalker.calibration.helper import parse_calibration_toml
-from runtime.args import get_args_attr
+from runtime.args import parse_args
 
 
 @dataclass(frozen=False)
@@ -50,7 +50,8 @@ UV_BY_INDEX = {
 
 # Affiner Raum: https://de.wikipedia.org/wiki/Affiner_Raum
 def get_board_point(idx: int) -> XYZ:
-    calibration_file_path: str | None = get_args_attr("calibration_file", None)
+    args = parse_args()
+    calibration_file_path: str | None = getattr(args, "calibration_file", None)
     calibration: Dict[str, Any] = parse_calibration_toml(calibration_file_path)
 
     # Measurement Points from the calibration file as XYZ
