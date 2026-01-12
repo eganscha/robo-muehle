@@ -34,6 +34,9 @@ class Muehle:
     def _has_lost(self, player: Literal[1, -1]) -> bool:
         return self._is_moving(player) and (self.board == player).sum() < 3
 
+    def _truce(self):
+        return self._is_jumping(1) and self._is_jumping(-1)
+
     def done(self):
         """
         returns the id of the winner or 0 for ongoing game
@@ -43,6 +46,9 @@ class Muehle:
         if self._has_lost(-1):
             return 1
         return 0
+
+    def is_terminal(self):
+        return self.done() != 0 or self._truce()
 
     def phase(self, player: Literal[1, -1]) -> Phase:
         if not self._is_moving(player):

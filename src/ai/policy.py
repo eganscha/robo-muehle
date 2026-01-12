@@ -31,9 +31,9 @@ class ThePolicy(nn.Module):
 
         # preserve batch
         x_board = torch.flatten(board, start_dim=1)
-        x_board = F.relu(self.board_fc(x_board))
+        x_board = F.relu(self.in_board_fc(x_board))
 
-        x_global = F.relu(self.global_fc(global_features))
+        x_global = F.relu(self.in_global_fc(global_features))
 
         x = torch.cat([x_board, x_global], dim=-1)
 
