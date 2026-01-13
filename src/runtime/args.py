@@ -15,4 +15,9 @@ def parse_args() -> argparse.Namespace:
         default=None,
         type=Path,
     )
+    parser.add_argument(
+        "--human-start",
+        default=True,
+        type=bool,
+    )
     return parser.parse_args()
