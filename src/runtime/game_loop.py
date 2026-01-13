@@ -8,10 +8,11 @@ def run_game_loop(robot: Ned2, detector: Detector, ai: Ai, human_start):
     game = Muehle()
     skip_first = not human_start
     while True:
-        if not skip_first:
+        if skip_first:
+            skip_first = False
+        else:
             # todo: update
             detector.get_next_gamestate(game)
-            skip_first = False
             if game.is_terminal():
                 break
         from_idx, to, remove = ai.next_complete_move(game)
