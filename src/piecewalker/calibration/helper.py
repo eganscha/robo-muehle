@@ -1,12 +1,12 @@
 import tomllib
 from pathlib import Path
-from typing import Dict, Any
-from runtime.paths import build_paths
+from typing import Any, Dict
 
 # Constants
 CALIBRATION_FILE_PREFIX = "calibration_"
 CALIBRATION_FILE_EXTENSION = ".toml"
 CALIBRATION_INDEX_WIDTH = 3
+
 
 def get_first_free_cfg_idx() -> int:
     """
@@ -16,12 +16,16 @@ def get_first_free_cfg_idx() -> int:
 
     next_idx = 0
     while True:
-        f = paths.calibrations_dir / f"{CALIBRATION_FILE_PREFIX}{next_idx:0{CALIBRATION_INDEX_WIDTH}}{CALIBRATION_FILE_EXTENSION}"
+        f = (
+            paths.calibrations_dir
+            / f"{CALIBRATION_FILE_PREFIX}{next_idx:0{CALIBRATION_INDEX_WIDTH}}{CALIBRATION_FILE_EXTENSION}"
+        )
         if not f.exists():
             break
         next_idx += 1
 
     return next_idx
+
 
 def _get_calibration_file_path(idx: int | None = None) -> Path | None:
     """
@@ -37,11 +41,15 @@ def _get_calibration_file_path(idx: int | None = None) -> Path | None:
         # Latest actually existing idx
         idx = next_idx - 1
 
-    path = paths.calibrations_dir / f"{CALIBRATION_FILE_PREFIX}{idx:0{CALIBRATION_INDEX_WIDTH}}{CALIBRATION_FILE_EXTENSION}"
+    path = (
+        paths.calibrations_dir
+        / f"{CALIBRATION_FILE_PREFIX}{idx:0{CALIBRATION_INDEX_WIDTH}}{CALIBRATION_FILE_EXTENSION}"
+    )
     if path.is_file():
         return path
     else:
         return None
+
 
 def parse_calibration_toml(path: Path | None = None) -> Dict[str, Any]:
     """

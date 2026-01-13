@@ -32,7 +32,16 @@ class Muehle:
         return self.to_place[player] == 0
 
     def _has_lost(self, player: Literal[1, -1]) -> bool:
-        return self._is_moving(player) and (self.board == player).sum() < 3
+        if self._is_moving(player) and (self.board == player).sum() < 3:
+            return True
+        if self.phase(player) == Phase.MOVING:
+            legal_mask = self.legal_actions_mask()
+            if not legal_mask.any():
+                return True
+        return False
+
+    def _truce(self):
+        return self._is_jumping(1) and self._is_jumping(-1)
 
     def done(self):
         """
@@ -43,6 +52,9 @@ class Muehle:
         if self._has_lost(-1):
             return 1
         return 0
+
+    def is_terminal(self):
+        return self.done() != 0 or self._truce()
 
     def phase(self, player: Literal[1, -1]) -> Phase:
         if not self._is_moving(player):
@@ -114,8 +126,10 @@ class Muehle:
         """
         Returns the winner or 0 for ongoing game
         """
+        if not self.can_remove(pos, self.player):
+            raise ValueError("Cannot remove piece from mill")
         # inverse because toggle happens on move and moves sends the signal that it can remove a field
-        if self.board[pos] != self.player:
+        if self.board[pos] == self.player:
             raise ValueError("Can only remove opponent piece")
         self.board[pos] = 0
         return self.done()
@@ -145,6 +159,23 @@ class Muehle:
             [5, 13, 20],
             [2, 14, 23],
         ]
+
+    def can_remove(self, pos: int, remover: Literal[1, -1]) -> bool:
+        """Check if opponent piece at pos can be removed."""
+        if self.board[pos] != -remover:
+            return False
+
+        opponent = -remover
+        opponent_pieces = [i for i in range(24) if self.board[i] == opponent]
+
+        # Find pieces NOT in mills
+        non_mill_pieces = [p for p in opponent_pieces if not self.is_mill(p, opponent)]
+
+        # If there are non-mill pieces, can only remove those
+        if non_mill_pieces:
+            return pos in non_mill_pieces
+        # All pieces in mills - can remove any
+        return True
 
     def _make_vm(self):
         # It took longer to create the graphic than writing the code
