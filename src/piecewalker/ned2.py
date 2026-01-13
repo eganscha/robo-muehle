@@ -4,8 +4,8 @@ from pyniryo import NiryoRobot, PoseObject
 
 from piecewalker.board_model import XYZ, get_board_point, list_to_xyz
 from piecewalker.calibration.helper import parse_calibration_toml
+from piecewalker.config import get_config
 from runtime.args import parse_args
-from runtime.config import get_config
 
 class Ned2:
     def build_pose_from_xyz(self, xyz: XYZ) -> PoseObject:

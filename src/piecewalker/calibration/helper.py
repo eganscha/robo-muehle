@@ -2,6 +2,8 @@ import tomllib
 from pathlib import Path
 from typing import Any, Dict
 
+from piecewalker.paths import build_paths
+
 # Constants
 CALIBRATION_FILE_PREFIX = "calibration_"
 CALIBRATION_FILE_EXTENSION = ".toml"
