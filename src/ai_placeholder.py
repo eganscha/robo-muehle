@@ -6,7 +6,7 @@ class Ai:
     def __init__(self, path: Path) -> None:
         pass
 
-    def next_move(self, game) -> tuple[Optional[int], int, Optional[int]]:
+    def next_complete_move(self, game) -> tuple[Optional[int], int, Optional[int]]:
         raw = input("Enter move (<int|none>,<int>,<int|none>): ").strip()
         return parse_move(raw)
 
