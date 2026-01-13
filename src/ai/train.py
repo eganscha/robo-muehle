@@ -10,7 +10,8 @@ import torch.optim as optim
 from torch.distributions import Categorical
 from typing_extensions import Literal
 
-from ..muehle_game import Muehle, Phase
+from muehle_game import Muehle, Phase
+
 from .helper import encode_data
 from .policy import ThePolicy
 
