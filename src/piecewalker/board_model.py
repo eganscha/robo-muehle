@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from statistics import fmean
 from typing import Dict, Any, List
 
 from piecewalker.calibration.helper import parse_calibration_toml
@@ -62,13 +61,6 @@ def get_board_point(idx: int) -> XYZ:
     O = points_xyz["corner_a"] # origin (index 0)
     B = points_xyz["corner_b"] # width corner (index 2)
     C = points_xyz["corner_c"] # height corner (index 21)
-
-    # average z between all measurement points, instead of
-    # using only a single one to aid with consistency
-    if calibration.get("used_fixed_z") is False:
-        avg_z: float = float(fmean(p.z for p in points_xyz.values()))
-        for p in points_xyz.values():
-            p.z = avg_z
 
     # Ratios for this board index
     u, v = UV_BY_INDEX[idx]
