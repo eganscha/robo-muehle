@@ -2,7 +2,7 @@ import tomllib
 from pathlib import Path
 from typing import Any
 
-from runtime.paths import build_paths, Paths
+from piecewalker.paths import Paths, build_paths
 
 _CFG: dict[str, Any] | None = None
 
