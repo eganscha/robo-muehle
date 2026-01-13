@@ -7,7 +7,7 @@ from muehle_game import Muehle
 
 
 def encode_data(
-    env: Muehle, player: Literal[1, -1]
+    env: Muehle, player: Literal[1, -1], removal_pending: bool = False
 ) -> tuple[torch.Tensor, torch.Tensor]:
     board = env.board
 
@@ -33,7 +33,8 @@ def encode_data(
             [to_place_opp_norm],  # 1
             [env.phase(player).value == 2],  # 1
             [env.phase(-player).value == 2],  # 1
+            [float(removal_pending)],  # 1
         ]
-    ).astype(np.float32)  # (10,)
+    ).astype(np.float32)  # (11,)
 
     return board_tensor, torch.tensor(global_features, dtype=torch.float32)

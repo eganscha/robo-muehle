@@ -9,7 +9,7 @@ class ThePolicy(nn.Module):
         super().__init__()
 
         self.in_board_fc = nn.Linear(3 * 24, 128)  # board, op_board, empty
-        self.in_global_fc = nn.Linear(10, 32)  # global features
+        self.in_global_fc = nn.Linear(11, 32)  # global features
 
         self.fc1 = nn.Linear(128 + 32, 256)
         self.fc2 = nn.Linear(256, 256)
@@ -26,7 +26,7 @@ class ThePolicy(nn.Module):
     def forward(self, board, global_features):
         """
         board: tensor (batch, 3, 24)
-        global_features: tensor (batch, 10)
+        global_features: tensor (batch, 11)
         """
 
         # preserve batch
