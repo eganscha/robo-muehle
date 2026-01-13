@@ -10,4 +10,4 @@ if __name__ == "__main__":
     ned2 = Ned2()
     ai = Ai(args.model_play)
     detector = Detector()
-    game_loop.run_game_loop(ned2, detector, ai, args.human_start)
+    game_loop.run_game_loop(ned2, detector, ai, args.human_start, args.robot_only)
