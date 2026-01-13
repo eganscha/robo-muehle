@@ -1,0 +1,9 @@
+graph TD
+    B["global_features"] --->|10| D["Linear + ReLu"] --> |32|F
+    A["board"] -->|3x24| C["Flatten"]
+    C --> |72| E["Linear + ReLu"]
+    E -->|128| F[Concat]
+    F -->|160| G[Linear + ReLu]
+    G -->|256| H[Linear + ReLu]
+    H -->|256| I[policy_head / Linear] -->|600| J[Output]
+    H -->|256| K[Linear + ReLu] -->|128| L[value_head / Linear+tanh] --> |1| J
