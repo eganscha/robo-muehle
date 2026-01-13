@@ -17,7 +17,9 @@ def run_game_loop(robot: Ned2, detector: Detector, ai: Ai, human_start):
                 break
         from_idx, to, remove = ai.next_complete_move(game)
         robot.move(from_idx=from_idx, to_idx=to)
+        game.move(from_idx, to)
         if remove:
             robot.move(from_idx=remove, to_idx=None)
+            game.remove_piece(remove)
         if game.is_terminal():
             break
