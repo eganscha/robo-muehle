@@ -1,21 +1,13 @@
+from ai_placeholder import Ai
 from piecewalker.ned2 import Ned2
-from piecewalker.ned2_provider import get_ned2, close_ned2
+from runtime import game_loop
+from yolo_detection.detector import Detector
+
+from .args import parse_args
 
 if __name__ == "__main__":
-    ned2: Ned2 = get_ned2()
-
-    ned2.move(from_idx=None, to_idx=3)
-    ned2.move(from_idx=3, to_idx=1)
-    ned2.move(from_idx=16, to_idx=None)
-
-    # ned2.move(from_idx=None, to_idx=None)
-    # ned2.move(from_idx=None, to_idx=None)
-    # ned2.move(from_idx=None, to_idx=None)
-    # ned2.move(from_idx=None, to_idx=None)
-    # ned2.move(from_idx=None, to_idx=None)
-    # ned2.move(from_idx=None, to_idx=None)
-    # ned2.move(from_idx=None, to_idx=None)
-    # ned2.move(from_idx=None, to_idx=None)
-    # ned2.move(from_idx=None, to_idx=None)
-
-    close_ned2()
+    args = parse_args()
+    ned2 = Ned2()
+    ai = Ai(args.model_play)
+    detector = Detector()
+    game_loop.run_game_loop(ned2, detector, ai, args.human_start)
