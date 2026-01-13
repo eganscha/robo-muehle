@@ -6,9 +6,9 @@ from statistics import fmean
 from piecewalker.calibration.helper import CALIBRATION_FILE_PREFIX, CALIBRATION_INDEX_WIDTH, CALIBRATION_FILE_EXTENSION
 from piecewalker.calibration.helper import get_first_free_cfg_idx
 from piecewalker import ned2_provider
+from piecewalker.config import get_config
+from piecewalker.paths import build_paths
 from runtime.args import parse_args
-from runtime.config import get_config
-from runtime.paths import build_paths
 
 
 class CalibrationStep(Enum):
