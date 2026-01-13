@@ -3,3 +3,10 @@ venv
 .DS_Store
 __pycache__
 *.egg-info
+.idea/
+
+# Packaging metadata
+*.egg-info/
+
+# Generated calibration outputs
+configs/calibrations/
