@@ -32,5 +32,10 @@ def parse_args() -> argparse.Namespace:
         default=True,
         type=bool,
     )
+    parser.add_argument(
+        "--robot-only",
+        default=False,
+        type=bool,
+    )
 
     return parser.parse_args()

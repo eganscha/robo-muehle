@@ -129,7 +129,7 @@ class Muehle:
         if not self.can_remove(pos, self.player):
             raise ValueError("Cannot remove piece from mill")
         # inverse because toggle happens on move and moves sends the signal that it can remove a field
-        if self.board[pos] == self.player:
+        if self.board[pos] != self.player:
             raise ValueError("Can only remove opponent piece")
         self.board[pos] = 0
         return self.done()
