@@ -84,7 +84,12 @@ class Ned2:
 
     def move(self, *, from_idx: int | None, to_idx: int | None, back_to_idle: bool = True) -> None:
         """
-        Pick-and-place one piece.
+        Pick-and-place one piece using a safe "hover -> descend -> retreat" sequence.
+
+        Sequence:
+          1) Pick:  move above the from_idx -> descend -> grasp -> retreat above.
+          2) Place: move above the to_idx -> descend -> grasp -> retreat above.
+          3) Optional: if back_to_idle=True, move back to the configured idle pose (niryo_config.toml).
 
         from_idx:
           - int (0..23): pick from board index
@@ -95,8 +100,8 @@ class Ned2:
           - None: place to calibration["points"]["removed_chips"] (uses stack height, increments removed count)
 
         back_to_idle:
-          - True: return to idle pose after placing
-          - False: stop after the place “retreat up” (useful for chaining moves)
+          - True: return to idle pose after placing a piece
+          - False: stop after the place "retreat up" (useful for chaining moves)
         """
         if from_idx is not None and not (0 <= from_idx <= 23):
             raise ValueError(f"from_idx out of range: {from_idx}")
