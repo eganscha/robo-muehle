@@ -35,9 +35,12 @@ class Muehle:
         if self._is_moving(player) and (self.board == player).sum() < 3:
             return True
         if self.phase(player) == Phase.MOVING:
-            legal_mask = self.legal_actions_mask()
-            if not legal_mask.any():
-                return True
+            for source in range(24):
+                if self.board[source] == player:
+                    for target in self.vm.get(source, []):
+                        if self.board[target] == 0:
+                            return False  #found move
+            return True  # no moves found
         return False
 
     def _truce(self):
