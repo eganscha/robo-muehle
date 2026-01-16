@@ -1,12 +1,12 @@
 from ultralytics import YOLO
 
-from src.board_geometry import BoardIndexMap
-from src.homography import warp_from_corners
-from src.index_mapping import nearest_index, estimate_grid_spacing_px, build_state_dict
-from src.morris_ascii import render_morris_ascii
-from src.vision.stone_center import stone_centers
-from src.vision.board_bbox import best_board_box, corners_from_bbox
-from src.vision.debug_vis import _resize_to_height, _hstack_safe
+from board_geometry import BoardIndexMap
+from homography import warp_from_corners
+from index_mapping import nearest_index, estimate_grid_spacing_px, build_state_dict
+from morris_ascii import render_morris_ascii
+from vision.stone_center import stone_centers
+from vision.board_bbox import best_board_box, corners_from_bbox
+from vision.debug_vis import _resize_to_height, _hstack_safe
 
 
 class Detector:
