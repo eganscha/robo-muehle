@@ -1,7 +1,7 @@
 from ai_placeholder import Ai
 from piecewalker.ned2 import Ned2
 from runtime import game_loop
-from yolo_detection.detector import Detector
+from imagedetection.detector import Detector
 
 from .args import parse_args
 
