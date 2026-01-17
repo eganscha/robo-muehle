@@ -81,13 +81,6 @@ class Detector:
             d in best_per_idx.items() if d["conf"] >= self.conf_accept
         }
 
-        """
-        uncertain = [
-            (i, d) for i, 
-            d in best_per_idx.items() if d["conf"] < self.conf_accept
-        ]
-        """
-
         vis_orig = board_res0.plot(img=img_bgr.copy())
         
         if self.stacks_model is not None:
