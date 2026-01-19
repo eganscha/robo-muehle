@@ -41,7 +41,7 @@ class ThePolicy(nn.Module):
         x = F.relu(self.fc2(x))
 
         policy_logits = self.policy_head(x)
-        if self.training:
+        if True:
             v = F.relu(self.value_fc(x))
             value = torch.tanh(self.value_head(v))
 
