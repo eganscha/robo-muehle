@@ -6,13 +6,14 @@
 # https://niryorobotics.github.io/pyniryo/v1.2.1-1/setup/ip_address.html
 robot_ip = "169.254.200.200"
 # Height of the chips
-chip_height = 0.0045
+chip_height = 0.0050 # 50.0 mm
 # Fixed z-value that can optionally be used instead of calculating it via the averages during the calibration proccess
 fixed_z = 0.0895
 
 # Small Z offsets (meters)
-pick_z_offset  =    -0.0000   # 0.10 mm lower for reliable pickup
-place_z_offset =    -0.0000   # 0.30 mm lower for gentle placement
+pick_z_offset  =    -0.0020   # −2.0 mm for reliable pickup
+#place_z_offset =     0.0017   # +1.7 mm for gentle placement
+place_z_offset =     0.0005   # +0.5 mm for gentle placement
 
 # Idle position the arm will move to between moves
 [piecewalker.idle_pose]
