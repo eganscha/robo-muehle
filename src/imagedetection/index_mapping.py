@@ -1,9 +1,9 @@
 import math
 import numpy as np
-from src.board_geometry import BoardIndexMap
+from imagedetection.board_geometry import BoardIndexMap
 
 
-board = BoardIndexMap("data/indices/board_indices.csv")
+board = BoardIndexMap("src/imagedetection/data/indices/board_indices.csv")
 
 
 def nearest_index(x_obj, y_obj, board):

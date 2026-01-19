@@ -1,7 +1,7 @@
 from ai_placeholder import Ai
 from muehle_game import Muehle
 from piecewalker.ned2 import Ned2
-from yolo_detection.detector import Detector
+from imagedetection.detector import Detector
 
 
 def run_game_loop(
