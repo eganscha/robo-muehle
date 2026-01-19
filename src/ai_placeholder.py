@@ -10,7 +10,6 @@ class Ai:
         raw = input("Enter move (<int|none>,<int>,<int|none>): ").strip()
         return parse_move(raw)
 
-from typing import Optional, Tuple
 
 def parse_move(s: str) -> tuple[Optional[int], int, Optional[int]]:
     parts = [p.strip() for p in s.split(",")]
