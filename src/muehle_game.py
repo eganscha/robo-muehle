@@ -151,6 +151,15 @@ class Muehle:
                 return True
         return False
 
+    def count_almost_mills(self, player: Literal[1, -1]) -> int:
+        """Counts how many almost mills a player has."""
+        count = 0
+        for mill in self.mills:
+            pieces = [self.board[p] for p in mill]
+            if pieces.count(player) == 2 and pieces.count(0) == 1:
+                count += 1
+        return count
+
     def _make_mills(self):
         return [
             [0, 1, 2],

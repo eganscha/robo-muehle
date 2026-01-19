@@ -269,6 +269,8 @@ class SelfPlayTrainer:
                 removal_pending = False
                 removal_player = None
 
+            almost_mills_player_before = env.count_almost_mills(current_player)
+
             legal_mask_np = ActionMapper.get_legal_mask(
                 env, current_player, removal_pending
             )
@@ -297,14 +299,39 @@ class SelfPlayTrainer:
             try:
                 source, target = ActionMapper.from_index(action_idx)
                 if removal_pending:
+                    is_breaking_mill = env.is_mill(target, -current_player)
                     result = env.remove_piece(target)
                     reward += 2.0
+                    if is_breaking_mill:
+                        reward += 0.5  # Bonus for breaking a mill
                     removal_pending = False
                     removal_player = None
                     if result == 0:
                         env.player = cast(Literal[1, -1], -env.player)
                 else:
+                    is_blocking = False
+                    for mill in env.mills:
+                        if target in mill:
+                            pieces = [env.board[p] for p in mill]
+                            if (
+                                pieces.count(-current_player) == 2
+                                and pieces.count(0) == 1
+                            ):
+                                is_blocking = True
+                                break
+
                     result = env.move(None if source == 24 else source, target)
+
+                    if is_blocking:
+                        reward += 0.7
+
+                    if result != "remove":
+                        almost_mills_player_after = env.count_almost_mills(
+                            current_player
+                        )
+                        if almost_mills_player_after > almost_mills_player_before:
+                            reward += 0.5
+
                     if result == "remove":
                         reward += 1.0
                         removal_pending = True
