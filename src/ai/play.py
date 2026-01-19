@@ -1,5 +1,8 @@
+import random
 from pathlib import Path
+from typing import Literal, cast
 
+import numpy as np
 import torch
 
 from muehle_game import Muehle
@@ -20,6 +23,15 @@ if __name__ == "__main__":
     model = load_model(Path("models/policy_final.pth"))
     count = 0
     Path("game").mkdir(parents=True, exist_ok=True)
+
+    rendered = game.render()
+    rendered.save(f"game/{count}.png")
+    count += 1
+
+    legal_moves = np.where(game.legal_actions_mask())[0]
+    random_move = 0
+    game.move(None, random_move)
+
     while True:
         rendered = game.render()
         rendered.save(f"game/{count}.png")

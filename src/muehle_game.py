@@ -3,7 +3,13 @@ from typing import Literal, cast
 
 import numpy as np
 
-from muhle_renderer import board, calc_coords_muhle, pieces, state24_to_points
+from muhle_renderer import (
+    board,
+    calc_coords_muhle,
+    load_board,
+    pieces,
+    state24_to_points,
+)
 from renderer import render
 
 
@@ -134,8 +140,7 @@ class Muehle:
         """
         if not self.can_remove(pos, self.player):
             raise ValueError("Cannot remove piece from mill")
-        # inverse because toggle happens on move and moves sends the signal that it can remove a field
-        if self.board[pos] != self.player:
+        if self.board[pos] == self.player:
             raise ValueError("Can only remove opponent piece")
         self.board[pos] = 0
         return self.done()
@@ -189,7 +194,7 @@ class Muehle:
         points = state24_to_points(state)
 
         result = render(
-            img=board,
+            img=load_board(),
             pieces=pieces,
             points=points,
             calc_coords=calc_coords_muhle,

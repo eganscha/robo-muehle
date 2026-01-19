@@ -5,7 +5,7 @@ import numpy as np
 import numpy.typing as npt
 from PIL import Image
 
-from muhle_renderer import calc_coords_muhle, create_stone, state24_to_points
+from muhle_renderer import calc_coords_muhle
 
 
 class Anchor(Enum):
@@ -83,5 +83,3 @@ def render(
     for i, j in indices:
         img = render_single(img, i, j, pieces[points[i, j] - 1], calc_coords)
     return img
-
-
