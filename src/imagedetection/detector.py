@@ -130,9 +130,8 @@ class Detector:
 
     def _game_state_arr(self, game) -> list[int]:
 
-        order = self.board.get_abs_indices()
-
-        return [int(game.board[i]) for i in order]
+        #return [int(x) for x in game.board]
+        return game.board.astype(int).tolist()
 
 
     def _infer_human_delta(self, prev: list[int], curr: list[int]) -> dict:
