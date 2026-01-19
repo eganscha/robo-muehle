@@ -3,6 +3,9 @@ from typing import Literal, cast
 
 import numpy as np
 
+from muhle_renderer import board, calc_coords_muhle, pieces, state24_to_points
+from renderer import render
+
 
 class Phase(Enum):
     PLACING = 0
@@ -39,7 +42,7 @@ class Muehle:
                 if self.board[source] == player:
                     for target in self.vm.get(source, []):
                         if self.board[target] == 0:
-                            return False  #found move
+                            return False  # found move
             return True  # no moves found
         return False
 
@@ -180,6 +183,19 @@ class Muehle:
         # All pieces in mills - can remove any
         return True
 
+    def render(self):
+        state = np.where(self.board == -1, 2, self.board).astype(np.int8)
+
+        points = state24_to_points(state)
+
+        result = render(
+            img=board,
+            pieces=pieces,
+            points=points,
+            calc_coords=calc_coords_muhle,
+        )
+        return result
+
     def _make_vm(self):
         # It took longer to create the graphic than writing the code
         # 0 ---------------------- 1 --------------------- 2
@@ -228,3 +244,12 @@ class Muehle:
             22: [19, 21, 23],
             23: [14, 20, 22],
         }
+
+
+if __name__ == "__main__":
+    game = Muehle()
+    game.move(None, 0)
+    game.move(None, 23)
+
+    result = game.render()
+    result.save("muehle.png")
