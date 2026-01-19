@@ -123,7 +123,7 @@ class SelfPlayAgent:
         )
 
         masked_logits = policy_logits.clone()
-        masked_logits[~legal_mask_tensor] = -1e9
+        masked_logits[0, ~legal_mask_tensor] = -1e9
 
         if random.random() < epsilon:
             legal_indices = torch.where(legal_mask_tensor)[0]
@@ -171,7 +171,7 @@ class SelfPlayAgent:
             legal_mask, dtype=torch.bool, device=self.device
         )
         masked_logits = policy_logits.clone()
-        masked_logits[~legal_mask_tensor] = -1e9
+        masked_logits[0, ~legal_mask_tensor] = -1e9
 
         action_idx = torch.argmax(masked_logits).item()
         source, target = ActionMapper.from_index(action_idx)
@@ -383,7 +383,7 @@ class SelfPlayTrainer:
         values = values.squeeze()
 
         masked_logits = policy_logits.clone()
-        masked_logits[~legal_mask_batch] = -float("inf")
+        masked_logits[~legal_mask_batch] = -1e9
 
         log_probs = F.log_softmax(masked_logits, dim=-1)
         action_log_probs = log_probs.gather(1, actions.unsqueeze(1)).squeeze()
@@ -461,7 +461,7 @@ def main():
     model = ThePolicy()
     trainer = SelfPlayTrainer(
         model,
-        learning_rate=3e-4,
+        learning_rate=1e-4,
         gamma=0.99,
         gae_lambda=0.95,
         entropy_coef=0.01,
