@@ -18,7 +18,12 @@ def load_model(path: Path):
 if __name__ == "__main__":
     game = Muehle()
     model = load_model(Path("models/policy_final.pth"))
+    count = 0
+    Path("game").mkdir(parents=True, exist_ok=True)
     while True:
+        rendered = game.render()
+        rendered.save(f"game/{count}.png")
+        count += 1
         if game.is_terminal():
             print("Game over!")
             break
