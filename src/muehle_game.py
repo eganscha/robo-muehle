@@ -115,9 +115,9 @@ class Muehle:
                 return "remove"
         else:
             if source is None:
-                raise ValueError("Invalid source")
+                raise ValueError("Invalid source none")
             if self.board[source] != p:
-                raise ValueError("Invalid source")
+                raise ValueError("Invalid source not player id")
             if ph == Phase.MOVING and target not in self.vm[source]:
                 raise ValueError("Invalid target")
             if self.board[target] != 0:
@@ -139,6 +139,7 @@ class Muehle:
         """
         if not self.can_remove(pos, self.player):
             raise ValueError("Cannot remove piece from mill")
+        self.player = cast(Literal[-1, 1], self.player * -1)
         self.board[pos] = 0
         return self.done()
 
@@ -179,6 +180,8 @@ class Muehle:
 
     def can_remove(self, pos: int, remover: Literal[1, -1]) -> bool:
         """Check if a piece at pos can be removed."""
+
+        remover = remover * -1
         if self.board[pos] != remover:
             return False
 
