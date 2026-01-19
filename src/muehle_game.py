@@ -4,7 +4,6 @@ from typing import Literal, cast
 import numpy as np
 
 from muhle_renderer import (
-    board,
     calc_coords_muhle,
     load_board,
     pieces,
@@ -140,8 +139,6 @@ class Muehle:
         """
         if not self.can_remove(pos, self.player):
             raise ValueError("Cannot remove piece from mill")
-        if self.board[pos] == self.player:
-            raise ValueError("Can only remove opponent piece")
         self.board[pos] = 0
         return self.done()
 
@@ -181,20 +178,16 @@ class Muehle:
         ]
 
     def can_remove(self, pos: int, remover: Literal[1, -1]) -> bool:
-        """Check if opponent piece at pos can be removed."""
-        if self.board[pos] != -remover:
+        """Check if a piece at pos can be removed."""
+        if self.board[pos] != remover:
             return False
 
-        opponent = -remover
-        opponent_pieces = [i for i in range(24) if self.board[i] == opponent]
+        remover_pieces = [i for i in range(24) if self.board[i] == remover]
 
-        # Find pieces NOT in mills
-        non_mill_pieces = [p for p in opponent_pieces if not self.is_mill(p, opponent)]
+        non_mill_pieces = [p for p in remover_pieces if not self.is_mill(p, remover)]
 
-        # If there are non-mill pieces, can only remove those
         if non_mill_pieces:
             return pos in non_mill_pieces
-        # All pieces in mills - can remove any
         return True
 
     def render(self):
