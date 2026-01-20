@@ -1,6 +1,4 @@
-import random
 from pathlib import Path
-from typing import Literal, cast
 
 import numpy as np
 import torch
@@ -136,7 +134,7 @@ def play_game():
 if __name__ == "__main__":
     # play_game()
     game = Muehle()
-    model = load_model(Path("models/policy_final-2.pth"))
+    model = load_model(Path("models/policy_final-4.pth"))
     count = 0
     Path("game").mkdir(parents=True, exist_ok=True)
 
@@ -145,7 +143,7 @@ if __name__ == "__main__":
     count += 1
 
     legal_moves = np.where(game.legal_actions_mask())[0]
-    random_move = 0
+    random_move = 4
     game.move(None, random_move)
 
     while True:
