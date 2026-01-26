@@ -11,6 +11,14 @@ from .train import SelfPlayAgent
 
 
 def load_model(path: Path):
+    """Loads a trained model for gameplay.
+
+    Args:
+        path: The path to the saved model state dictionary.
+
+    Returns:
+        A SelfPlayAgent initialized with the loaded model.
+    """
     model = ThePolicy()
     state_dict = torch.load(path, map_location="cpu")
     model.load_state_dict(state_dict)
@@ -18,6 +26,11 @@ def load_model(path: Path):
 
 
 def play_game():
+    """Starts an interactive game of Muehle using matplotlib for UI.
+
+    Allows a human player to click on the board to make moves.
+    The game state is displayed and updated in the matplotlib window.
+    """
     import matplotlib.patches as patches
     import matplotlib.pyplot as plt
 
@@ -25,6 +38,7 @@ def play_game():
     game_state = {"move_count": 0, "state": None, "selected": None}
 
     def show_board_clickable():
+        """Sets up and displays the clickable game board using matplotlib."""
         fig, ax = plt.subplots()
         board_img = ax.imshow(game.render())
 
@@ -43,6 +57,7 @@ def play_game():
         )
 
         def update_state_label():
+            """Updates the text label displaying the current game phase or action."""
             state = game_state.get("state")
             phase = game.phase(game.player)
             if state == "remove":
@@ -57,6 +72,7 @@ def play_game():
             fig.canvas.draw_idle()
 
         def draw_selected_marker():
+            """Draws a red circle to indicate the currently selected piece."""
             nonlocal selected_marker
             if selected_marker is not None:
                 selected_marker.remove()
@@ -77,6 +93,7 @@ def play_game():
             fig.canvas.draw_idle()
 
         def onclick(event):
+            """Handles mouse click events on the board for making moves."""
             click_x, click_y = event.xdata, event.ydata
             if click_x is None or click_y is None:
                 return

@@ -17,6 +17,7 @@ class Anchor(Enum):
 
     @classmethod
     def from_string(cls, value: str) -> "Anchor":
+        """Creates an Anchor instance from a string value."""
         v = value.strip().lower()
 
         if v in ("min", "top", "t", "left", "l"):
@@ -36,7 +37,10 @@ def adjust_xy(
     x: int, y: int, w: int, h: int, x_anchor: Anchor, y_anchor: Anchor
 ) -> tuple[int, int]:
     """
-    Shifts the x and y coordinates of the image by multiplying with the provided anchor value.
+    Shifts coordinates based on anchor values to align the piece correctly.
+
+    For example, with a 'center' anchor, the piece's center will be at (x, y).
+    With a 'min' anchor (top/left), the piece's top-left corner will be at (x, y).
     """
     x = int(x - w * x_anchor.value)
     y = int(y - h * y_anchor.value)
@@ -48,7 +52,7 @@ def render_single(
     img: Image.Image, i: int, j: int, piece: Image.Image, calc_coords: CalcCoordsFn
 ) -> Image.Image:
     """
-    Render a single piece on the game board.
+    Renders a single piece onto the board image at a given grid location.
     """
     x, y, w, h, x_a, y_a = calc_coords(i, j)
     x, y = adjust_xy(x, y, w, h, Anchor.from_string(x_a), Anchor.from_string(y_a))
@@ -66,8 +70,20 @@ def render(
     old_points: npt.NDArray[np.int8] | None = None,
     calc_coords: CalcCoordsFn = calc_coords_muhle,
 ) -> Image.Image:
-    """
-    Main render function
+    """Main render function to draw all pieces on the board.
+
+    It can perform a full render or an incremental render if `old_points` is provided,
+    only drawing the pieces that have changed.
+
+    Args:
+        img: The background board image to draw on.
+        pieces: A list of PIL Images for the pieces (e.g., [white_stone, black_stone]).
+        points: A 2D numpy array representing the current board state.
+        old_points: An optional 2D numpy array of the previous board state for incremental rendering.
+        calc_coords: A function that maps grid indices to pixel coordinates.
+
+    Returns:
+        The board image with all the pieces rendered on it.
     """
     assert points.ndim == 2, f"Expected 2D array, got {points.ndim}D array"
     assert points.shape[0] == points.shape[1], (

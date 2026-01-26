@@ -22,6 +22,18 @@ def create_stone(
     outline_color: tuple[int, int, int, int] = (0, 0, 0, 200),
     outline_width: int = 2,
 ) -> Image.Image:
+    """Creates a PIL Image of a game piece (a circle with optional outline).
+
+    Args:
+        size: The diameter of the stone in pixels.
+        color: The fill color of the stone.
+        outline: Whether to draw an outline.
+        outline_color: The color of the outline.
+        outline_width: The width of the outline in pixels.
+
+    Returns:
+        A PIL Image object representing the stone.
+    """
     img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
 
@@ -44,6 +56,16 @@ def create_stone(
 
 
 def state24_to_points(state: np.ndarray) -> np.ndarray:
+    """Converts the 1D 24-position board representation to a 2D 7x7 grid.
+
+    This is used to map the logical board state to the visual grid layout for rendering.
+
+    Args:
+        state: A 1D numpy array of shape (24,) representing the board state.
+
+    Returns:
+        A 2D numpy array of shape (7, 7) representing the board for rendering.
+    """
     assert state.shape == (24,)
     assert state.dtype == np.int8
 
@@ -62,6 +84,18 @@ def state24_to_points(state: np.ndarray) -> np.ndarray:
 
 
 def calc_coords_muhle(i: int, j: int):
+    """Calculates pixel coordinates and size for a piece on the board image.
+
+    This function maps a 7x7 grid index (i, j) to a specific pixel location (x, y)
+    and piece size (w, h) on the final rendered image.
+
+    Args:
+        i: The row index (0-6).
+        j: The column index (0-6).
+
+    Returns:
+        A tuple (x, y, width, height, x_anchor, y_anchor) for rendering the piece.
+    """
     BOARD_SIZE = 1024
     GRID_SIZE = 6
     MARGIN = 110
@@ -83,6 +117,14 @@ def calc_coords_muhle(i: int, j: int):
 
 
 def load_board():
+    """Loads the board background image and makes it perfectly symmetrical.
+
+    It crops the top-left quadrant and then mirrors it to create the other
+    three quadrants, ensuring a perfectly symmetrical board.
+
+    Returns:
+        A PIL Image object of the symmetrical game board.
+    """
     board = Image.open("board.jpg").convert("RGBA")
 
     w, h = board.size
