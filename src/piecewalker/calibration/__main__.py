@@ -10,6 +10,9 @@ from piecewalker.config import get_config
 from piecewalker.paths import build_paths
 from runtime.args import parse_args
 
+# Note Docstrings are partially or fully written by ChatGPT,
+# but I can't be asked to write them out myself and deleting them
+# is also unwise, as they DO help you understand the functions imo.
 
 class CalibrationStep(Enum):
     CORNER_A = "Corner A (origin)"
