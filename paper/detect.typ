@@ -21,7 +21,7 @@ A critical geometric constraint applies to stone detection: stones are detected 
 Stack detection is performed in the original camera frame (off-board region) and therefore operates in unrectified image coordinates; no pre-warping is applied to stack training data. Stack detections are used to estimate off-board piece availability
 
 #figure(
-  image("ai.png", width: 50%),
+  image("WhatsApp Image 2026-01-27 at 16.17.42.jpeg", width: 80%),
   caption: [Qualitative detection example Left: raw camera frame with board bounding box and off-board stack detections. Right: rectified top-down board view used for on-board stone detection and subsequent index mapping.],
 ) <fig>
 

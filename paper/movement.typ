@@ -6,8 +6,6 @@
 
 #show raw.where(block: true): set text(font: "Cascadia Code", size: 7.4pt)
 
-#pagebreak()
-
 = Robot Execution Layer
 
 == Design Constraints and Integration Rationale
