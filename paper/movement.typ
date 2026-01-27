@@ -33,40 +33,27 @@ In our implementation, the mapping is applied in the $x$--$y$ plane only, and th
 == Robust Motion Execution via a Hover--Descend--Retreat Pattern
 
 #figure(caption: "Approach-from-above pick-and-place routine (pseudocode).")[
-  #codly(
-    annotations: (
-      (
-        start: 2,
-        end: 2,
-        content: [hover],
-      ),
-      (
-        start: 3,
-        end: 3,
-        content: [descend],
-      ),
-      (
-        start: 4,
-        end: 4,
-        content: [grasp/release],
-      ),
-      (
-        start: 5,
-        end: 5,
-        content: [retreat],
-      ),
-    ),
-  )
-  ```pseudocode
-  procedure ViaAbove(p, action)
-      MovePose(AtZ(p, SAFE_Z))
-      MovePose(p)
-      action()
-      MovePose(AtZ(p, SAFE_Z))
-  end procedure
-  ReleaseWithTool()
-  ViaAbove(src, GraspWithTool)
-  ViaAbove(dst, ReleaseWithTool)
+  ```python
+  # from_idx/to_idx: int in [0..23] for board fields, or None for stack
+  def move(from_idx: int | None, to_idx: int | None):
+    assert from_idx is None or 0 <= from_idx < 24
+    assert to_idx is None or 0 <= to_idx < 24
+    src = pose_stack("unplaced") if from_idx is None else pose_board(from_idx)
+    dst = pose_stack("removed") if to_idx is None else pose_board(to_idx)
+
+    def via_above(p, action):
+      robot.move_pose(p.at(z = SAFE_Z)) # hover
+      robot.move_pose(p) # descend to target
+      action() #grasp/release
+      robot.move_pose(p.at(z = SAFE_Z)) # retreat
+
+    robot.release_with_tool()
+    via_above(src, robot.grasp_with_tool)
+    unplaced_count -= (from_idx is None)
+    via_above(dst, robot.release_with_tool)
+    removed_count += (to_idx is None)
+
+    if back_to_idle: robot.move_pose(IDLE_POSE)
   ```
 ] <algorithm>
 
