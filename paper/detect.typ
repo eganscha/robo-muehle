@@ -1,4 +1,4 @@
-= Detection
+= Computer Vision
 == Model Selection
 For the vision-based perception module of this robotics project, we selected YOLOv8 because it is designed for real-time inference and is supported by a mature, integrated toolchain. In addition to strong empirical performance, YOLOv8 offers comparatively consistent training and inference. It is a lightweight variant and efficient enough for development on resource-constrained hardware. Owing to its accessible workflows and straightforward usage, this YOLO variant is also a practical choice for teams with limited prior experience in deep learning, while still providing some advanced features @ultralytics_yolov8_intro_2023. In this application context, detecting a game board and pieces, newer YOLO variants may introduce additional complexity and higher computational requirements that do not yield a proportional benefit for this required detection task. At the same time, YOLOv8 offers competitive inference speed, which is essential for responsive robotic systems that must react reliably under time constraints @ultralytics_yolov9_vs_yolov8_compare.
 
@@ -27,9 +27,9 @@ Board detection constitutes the entry point to the perception pipeline and is ex
 == Perspective Normalization via Homography
 Reliable board-state estimation requires a consistent coordinate frame under changes in camera pose (tilt, in-plane rotation, distance). This is addressed via planar perspective normalization: once the board region is detected, it is rectified into a fixed, top-down view using a homography (projective transformation). Homographies are applicable when the observed structure is well-approximated as planar under a projective camera model @Hartley2004 @Szeliski2022. A homography maps points between two planes according to
 
-$ p' ~ H p, quad H in RR^(3 times 3) $,
+$ p' ~ H p, quad H in RR^(3 times 3), $
 
-where image points are written in homogeneous form  $ p = (x, y, 1)^T $. The symbol $~$ denotes equality up to a non-zero scale factor. After transformation, the inhomogeneous coordinates are recovered by normalizing with the third component $w$, i.e., $ x' = tilde(x) / tilde(w) $ and $ y' = tilde(y) / tilde(w) $ @Hartley2004 @cmu_16385_image_homographies_slides_2024. This additional third coordinate enables translation and projective effects (e.g., foreshortening) to be expressed as a single matrix operation. This 3×3 setup and its degrees of freedom are standard in multi-view geometry @Hartley2004 @Szeliski2022.
+where image points are written in homogeneous form  $p = (x, y, 1)^T$. The symbol $~$ denotes equality up to a non-zero scale factor. After transformation, the inhomogeneous coordinates are recovered by normalizing with the third component $w$, i.e., $x' = tilde(x) / tilde(w)$ and $y' = tilde(y) / tilde(w)$ @Hartley2004 @cmu_16385_image_homographies_slides_2024. This additional third coordinate enables translation and projective effects (e.g., foreshortening) to be expressed as a single matrix operation. This 3×3 setup and its degrees of freedom are standard in multi-view geometry @Hartley2004 @Szeliski2022.
 
 In the implemented pipeline, board localization is performed by a learned detector that returns a bounding box. From that box, the four corners are extracted in a fixed order (top-left, top-right, bottom-right, bottom-left) and mapped to a predefined square output geometry. The homography $H$ is computed and applied with OpenCV’s perspective transform utilities (getPerspectiveTransform and warpPerspective) @opencv_geometric_image_transformations @opencv_py_geometric_transformations_tutorial. warpPerspective performs inverse-mapped, per-pixel resampling under the estimated homography, producing a rectified board image in a fixed target grid @opencv_geometric_image_transformations.
 
@@ -49,7 +49,7 @@ Stack detection is performed in the original camera frame (off-board region) and
   caption: [Qualitative detection example Left: raw camera frame with board bounding box and off-board stack detections. Right: rectified top-down board view used for on-board stone detection and subsequent index mapping.],
 ) <fig>
 
-Candidate extraction converts each predicted bounding box into a point hypothesis using its center $ (c_x, c_y) $. Ultralytics provides box conversions including $[x_"center", y_"center", w, h]$, which enables direct retrieval of centers for subsequent mapping @ultralytics_results_reference.
+Candidate extraction converts each predicted bounding box into a point hypothesis using its center $(c_x, c_y)$. Ultralytics provides box conversions including $[x_"center", y_"center", w, h]$, which enables direct retrieval of centers for subsequent mapping @ultralytics_results_reference.
 
 Detections are filtered in two stages:
 
@@ -60,9 +60,9 @@ If several detections land on the same board position, the best candidate wins: 
 == Index Mapping and State Building
 The normalized board view provides a deterministic mapping from image-space hypotheses to the discrete Nine Men’s Morris state. Playable positions are represented as a fixed set of indices with normalized coordinates $(x_"rel", y_"rel") in [0, 1]$ and stored in a CSV file. At runtime, those coordinates are mapped to pixel coordinates in the canonical image via $(x_i, y_i) = (x_"rel" S, y_"rel" S)$, where S is the board’s canonical side length in pixels.
 
-Each detected stone center  $(c_x, c_y)$ is assigned to the nearest index by Euclidean distance:
+Each detected stone center $(c_x, c_y)$ is assigned to the nearest index by Euclidean distance:
 
-$ i^* = arg min_(i) sqrt((c_x - x_i)^2 + (c_y - y_i)^2) $.
+$ i^* = arg min_(i) sqrt((c_x - x_i)^2 + (c_y - y_i)^2). $
 
 To increase robustness against spurious detections, a scale-aware acceptance radius is applied. This radius is based on the board geometry, e.g., the typical grid spacing, computed as the median distance to the nearest neighbor among the indices in pixel space. Detections exceeding a chosen fraction of this spacing are rejected as implausible placements.
 
