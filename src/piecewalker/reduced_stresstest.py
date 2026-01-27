@@ -1,3 +1,7 @@
+# Note Docstrings are partially or fully written by ChatGPT,
+# but I can't be asked to write them out myself and deleting them
+# is also unwise, as they DO help you understand the functions imo.
+
 """
 Reduced stress test: Only collect black chips from the board to the removed stack, to see if stacking works reliably.
 

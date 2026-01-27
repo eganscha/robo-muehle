@@ -1,3 +1,7 @@
+# Note Docstrings are partially or fully written by ChatGPT,
+# but I can't be asked to write them out myself and deleting them
+# is also unwise, as they DO help you understand the functions imo.
+
 """
 Setup:
 - Manually place BLACK chips on the board at the indices listed as (B).
