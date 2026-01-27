@@ -13,6 +13,6 @@
   ),
   bibliography: bibliography("refs.bib"),
 )
-#pagebreak()
+#include "detect.typ"
 #include "ai.typ"
 #include "movement.typ"
