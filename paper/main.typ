@@ -20,6 +20,11 @@
       department: [Informatik],
       organization: [Hof-University],
     ),
+    (
+      name: "Eugen Ganscha",
+      department: [Informatik],
+      organization: [Hof-University],
+    ),
   ),
   bibliography: bibliography("refs.bib"),
 )
