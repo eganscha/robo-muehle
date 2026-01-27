@@ -10,6 +10,16 @@
       department: [Informatik],
       organization: [Hof-University],
     ),
+    (
+      name: "Marie Müller",
+      department: [Informatik],
+      organization: [Hof-University],
+    ),
+    (
+      name: "Kitti Kern",
+      department: [Informatik],
+      organization: [Hof-University],
+    ),
   ),
   bibliography: bibliography("refs.bib"),
 )
