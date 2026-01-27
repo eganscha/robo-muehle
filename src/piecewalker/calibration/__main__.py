@@ -32,7 +32,6 @@ def _record_xyz() -> XYZ:
     ned2 = ned2_provider.get_ned2()
 
     pose = ned2.robot.get_pose()
-    print(pose)
 
     return XYZ(pose.x, pose.y, pose.z)
 
