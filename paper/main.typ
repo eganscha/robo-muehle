@@ -28,6 +28,7 @@
   ),
   bibliography: bibliography("refs.bib"),
 )
+#include "intro.typ"
 #include "detect.typ"
 #include "ai.typ"
 #include "movement.typ"
