@@ -7,28 +7,27 @@
   authors: (
     (
       name: "Eugen Ganscha",
-      department: [Informatik],
-      organization: [Hof University],
+      organization: [Fakultät Informatik],
+      location: [Matrikelnummer: 00514322],
+      email: "eganscha@hof-university.de"
     ),
     (
       name: "Frederik Schwarz",
-      department: [Informatik],
-      organization: [Hof University],
+      organization: [Fakultät Informatik],
+      location: [Matrikelnummer: 00515923],
+      email: "frederik.schwarz@hof-university.de"
     ),
     (
       name: "Karla Schramm",
-      department: [Informatik],
-      organization: [Hof University],
+      organization: [Fakultät Informatik],
     ),
     (
       name: "Kitti Kern",
-      department: [Medieninformatik],
-      organization: [Hof University],
+      organization: [Fakultät Medieninformatik],
     ),
     (
       name: "Marie Müller",
-      department: [Medieninformatik],
-      organization: [Hof University],
+      organization: [Fakultät Medieninformatik],
     ),
   ),
   bibliography: bibliography("refs.bib"),
