@@ -16,7 +16,7 @@ The physical setup imposed further constraints. The employed game set exhibited 
 
 == Geometric Board Calibration and Target Pose Calculation
 
-The vendor-provided `PyNiryo` API @pyniryo_docs was used as the primary control interface. The robot is commanded in task space using Cartesian end-effector poses (`x`, `y`, `z`, `roll`, `pitch`, `yaw`), represented in code via the `PoseObject` data structure @pyniryo_examples_movement. Translational coordinates are specified in meters and orientations in radians. End-effector motion is executed in the robot's base coordinate frame using `move_pose(PoseObject)`.
+The vendor-provided `PyNiryo` library @pyniryo_docs was used as the primary control interface. The robot is commanded in task space using Cartesian end-effector poses (`x`, `y`, `z`, `roll`, `pitch`, `yaw`), represented in code via the `PoseObject` data structure @pyniryo_examples_movement. Translational coordinates are specified in meters and orientations in radians. End-effector motion is executed in the robot's base coordinate frame using `move_pose(PoseObject)`.
 
 The `get_pose()` function returns the current end-effector pose directly in this base frame. As a result, the pose parameters are immediately suitable for calibration, motion target generation, and execution, and no additional coordinate-frame conversion is required.
 
