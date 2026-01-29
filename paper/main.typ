@@ -20,14 +20,20 @@
     (
       name: "Karla Schramm",
       organization: [Studiengang Informatik],
+      location: [Matrikelnummer: ],
+      email: "karla.schramm@hof-university.de"
     ),
     (
       name: "Kitti Kern",
       organization: [Studiengang Medieninformatik],
+      location: [Matrikelnummer: 00646623],
+      email: "kitti.kern@hof-university.de"
     ),
     (
       name: "Marie Müller",
       organization: [Studiengang Medieninformatik],
+      location: [Matrikelnummer: 00286622],
+      email: "marie.mueller@hof-university.de"
     ),
   ),
   bibliography: bibliography("refs.bib"),
