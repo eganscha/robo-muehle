@@ -41,7 +41,7 @@ In our implementation, the mapping is applied in the $x$--$y$ plane only, and th
 
       def approach(p): robot.move(p.at(z=SAFE_Z))
       def descend(p):  robot.move(p)
-      def retreat(p):  robot.move(p.at(z=SAFE_Z))  #
+      def retreat(p):  robot.move(p.at(z=SAFE_Z))
 
       def at(p, action):
           approach(p)
