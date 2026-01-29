@@ -36,28 +36,26 @@ In our implementation, the mapping is applied in the $x$--$y$ plane only, and th
   ```python
   # from_idx/to_idx: int in [0..23] for board fields, or None for stack
   def move(from_idx: int | None, to_idx: int | None):
-    assert from_idx is None or 0 <= from_idx < 24
-    assert to_idx is None or 0 <= to_idx < 24
-    src = pose_stack("unplaced") if from_idx is None else pose_board(from_idx)
-    dst = pose_stack("removed") if to_idx is None else pose_board(to_idx)
+      src = stack("unplaced") if from_idx is None else board(from_idx)
+      dst = stack("removed")  if to_idx   is None else board(to_idx)
 
-    def via_above(p, action):
-      robot.move_pose(p.at(z = SAFE_Z)) # hover
-      robot.move_pose(p) # descend to target
-      action() #grasp/release
-      robot.move_pose(p.at(z = SAFE_Z)) # retreat
+      def approach(p): robot.move(p.at(z=SAFE_Z))
+      def descend(p):  robot.move(p)
+      def retreat(p):  robot.move(p.at(z=SAFE_Z))  #
 
-    robot.release_with_tool()
-    via_above(src, robot.grasp_with_tool)
-    unplaced_count -= (from_idx is None)
-    via_above(dst, robot.release_with_tool)
-    removed_count += (to_idx is None)
+      def at(p, action):
+          approach(p)
+          descend(p)
+          action()
+          retreat(p)
 
-    if back_to_idle: robot.move_pose(IDLE_POSE)
+      at(src, grasp)
+      at(dst, release)
+      if back_to_idle: robot.move(IDLE)
   ```
 ] <algorithm>
 
-The executed motion strategy is summarized in @algorithm as pseudocode. Each manipulation step follows a fixed four-phase primitive (hover $arrow$ descend $arrow$ actuate $arrow$ retreat) using a predefined safe height (equal to the configured idle pose height). This design reduces collision risk and improves repeatability, since horizontal movements are performed only at a clearance height. In particular, the approach-from-above strategy avoids sweeping motions near the board surface and reduces the likelihood of disturbing adjacent pieces or destabilizing stacks during pick-and-place operations.
+The executed motion strategy is summarized in @algorithm as pseudocode. Each manipulation step follows a fixed four-phase primitive (approach $arrow$ descend $arrow$ actuate $arrow$ retreat) using a predefined safe height (equal to the configured idle pose height). This design reduces collision risk and improves repeatability, since horizontal movements are performed only at a clearance height. In particular, the approach-from-above strategy avoids sweeping motions near the board surface and reduces the likelihood of disturbing adjacent pieces or destabilizing stacks during pick-and-place operations.
 
 == Grasp Parameterization and Empirical Validation
 
