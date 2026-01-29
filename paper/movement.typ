@@ -10,7 +10,7 @@
 
 == Design Constraints and Integration Rationale
 
-The robot execution layer was developed as part of a larger Sense--Plan--Act pipeline, making subsystem decoupling a primary objective. In particular, introducing additional vision dependencies into the execution layer would have increased integration complexity and risk, especially during system integration. Therefore, the execution component was designed to operate without a dedicated camera-based localization module beyond the perception subgroup.
+The robot execution layer was developed as part of a larger Sense--Plan--Act pipeline. In particular, introducing additional vision dependencies into the execution layer would have increased integration complexity and risk, especially during system integration. Therefore, the execution component was designed to operate without a dedicated camera-based localization module beyond the perception subgroup.
 
 The physical setup imposed further constraints. The employed game set exhibited noticeable manufacturing tolerances, including non-uniform chip heights, which complicate stable grasping. Although a magnetic end-effector can increase robustness under such variability, mechanical grasping was retained to ensure compatibility with standard, non-magnetic playing pieces. Consequently, the execution pipeline emphasizes (i) lightweight geometric calibration from a small set of reference measurements, (ii) a conservative approach-from-above motion primitive to reduce collision risk and stack disturbance, and (iii) empirical tuning of grasp parameters to improve robustness under piece-height variation.
 
