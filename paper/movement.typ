@@ -28,7 +28,7 @@ The first calibration point $O$ serves as the origin. The second and third point
 ]
 where $u_i$ and $v_i$ are taken from a lookup table.
 
-In our implementation, the mapping is applied in the $x$--$y$ plane only, and the height is kept constant by setting $z := O_z$. The value $O_z$ is determined during calibration, either as an average height derived from the recorded reference points (using their mean) or as a predefined constant specified in `niryo_config.toml` for even more reliability if the board height is known.
+In our implementation, the mapping is applied in the $x$--$y$ plane only, and the height is kept constant by setting #box($z := O_z$). The value $O_z$ is determined during calibration, either as an average height derived from the recorded reference points (using their mean) or as a predefined constant specified in `niryo_config.toml` for even more reliability if the board height is known.
 
 == Robust Motion Execution via a Hover--Descend--Retreat Pattern
 
