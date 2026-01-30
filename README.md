@@ -16,7 +16,7 @@ pip install git+https://github.com/frederik-uni/robo-muehle.git
 
 ## Usage
 ```sh
-python3 -m muehle_game
+python3 -m runtime
 ```
 
 ## Test
